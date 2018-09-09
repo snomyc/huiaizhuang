@@ -15,4 +15,6 @@ public interface UserService extends BaseService<User, String>{
     public void deleteAll();
     
     public ResponseEntity groupLogin(UserRequest request);
+    
+    public List<User> findByCompanyIsNull();
 }

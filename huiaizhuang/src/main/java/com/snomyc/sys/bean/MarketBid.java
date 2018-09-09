@@ -12,22 +12,25 @@ import com.snomyc.base.domain.BaseEntity;
 public class MarketBid extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 	
-	@Column(unique = false,nullable = false,length=10)
+	@Column(nullable = false,length=10)
 	private String year;//年份
 	
 	private int  groupNum; //小组编号
 	
-	@Column(unique = false,nullable = false,length=50)
+	@Column(nullable = false,length=50)
     private String company; //小组公司名称
 	
-	@Column(nullable = false, unique = true,length=50)
+	@Column(nullable = false, length=50)
     private String marketName; //市场名称
 	
-	@Column(nullable = false, unique = true,length=50)
+	@Column(nullable = false, length=50)
     private String productName; //产品名称
 	
 	private int  bidNum; //投标数量
 	private int  isLabel; //是否被标注，0:否 1:是  被标注的公司下年投标数量+1
+	
+	private int  isBid; //是否投标，0:否 1:是 
+	private int  isFinish; //是否完结，0:否 1:是 
 	public String getYear() {
 		return year;
 	}
@@ -69,6 +72,18 @@ public class MarketBid extends BaseEntity{
 	}
 	public void setIsLabel(int isLabel) {
 		this.isLabel = isLabel;
+	}
+	public int getIsFinish() {
+		return isFinish;
+	}
+	public void setIsFinish(int isFinish) {
+		this.isFinish = isFinish;
+	}
+	public int getIsBid() {
+		return isBid;
+	}
+	public void setIsBid(int isBid) {
+		this.isBid = isBid;
 	}
    
 }
