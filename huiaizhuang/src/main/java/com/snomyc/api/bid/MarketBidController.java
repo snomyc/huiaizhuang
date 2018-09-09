@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snomyc.api.user.request.UserAddRequest;
-import com.snomyc.api.user.request.UserEditRequest;
 import com.snomyc.base.domain.ResponseConstant;
 import com.snomyc.base.domain.ResponseEntity;
 import com.snomyc.sys.bean.User;
@@ -22,7 +21,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "沙盘演练市场投标接口", tags = "沙盘演练市场投标接口")
-@ApiIgnore
 @RestController
 @RequestMapping("/api/bid")
 public class MarketBidController {

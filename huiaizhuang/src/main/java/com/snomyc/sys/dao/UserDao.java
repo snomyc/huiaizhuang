@@ -11,4 +11,6 @@ import com.snomyc.sys.bean.User;
 public interface UserDao extends JpaRepository<User, String> {
 
     public List<User> findByOrderByGroupNumAsc();
+    
+    public User findByGroupNumAndPassword(int groupNum,String password);
 }
