@@ -8,14 +8,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2 //加载swagger
-public class AmazonApplication extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(AmazonApplication.class);
+        return application.sources(Application.class);
     }
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(AmazonApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
 
