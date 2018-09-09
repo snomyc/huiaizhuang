@@ -35,9 +35,9 @@ public class SwaggerConfig {
                 "小程序 Restful接口文档",
                 "1.0",
                 "",
-                new Contact("指点教育", "https://www.sharingschool.com/", "service@sharingschool.com"),
-                "LICENSE-2.0",
-                "http://www.apache.org/licenses/LICENSE-2.0");
+                new Contact("火山哥", "SNOM", "snomyc@qq.com"),
+                "snomyc@qq.com",
+                "");
     }
 
 }

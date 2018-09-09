@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class UserAddRequest extends BaseRequest {
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(name = "小组数量", value = "小组数量", required = true)
+	@ApiModelProperty(name = "num", value = "小组数量", required = true)
 	private int num;
 
 	public int getNum() {
