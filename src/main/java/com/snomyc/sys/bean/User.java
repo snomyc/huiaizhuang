@@ -9,38 +9,39 @@ public class User extends BaseEntity{
     
 	private static final long serialVersionUID = 1L;
 	
-	@Column(unique = true,nullable = false,length=50)
-    private String userName;
+	@Column(length=50)
+    private String company; //小组公司名称 唯一
 	
-	@Column(nullable = false, unique = true,length=50)
-    private String password;
+	private int  groupNum; //小组编号
 	
-    private int age;
+	@Column(nullable = false,length=50)
+    private String password; //小组密码
 
-    public String getUserName() {
-        return userName;
-    }
+	public String getCompany() {
+		return company;
+	}
 
-    public User setUserName(String userName) {
-        this.userName = userName;
-        return this;
-    }
+	public void setCompany(String company) {
+		this.company = company;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public int getGroupNum() {
+		return groupNum;
+	}
 
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
-    }
+	public void setGroupNum(int groupNum) {
+		this.groupNum = groupNum;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public User setAge(int age) {
-        this.age = age;
-        return this;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
+	
+   
 }
