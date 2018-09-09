@@ -2,6 +2,7 @@ package com.snomyc.sys.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -63,6 +64,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 		userDao.save(user);
 		responseEntity.success();
 		return responseEntity;
+	}
+
+	@Override
+	public List<User> findByCompanyIsNull() {
+		List<User> user = userDao.findByCompanyIsNull();
+		return user;
 	}
 }
 
