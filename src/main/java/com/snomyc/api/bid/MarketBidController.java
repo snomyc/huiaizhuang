@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
+import com.snomyc.api.bid.request.EditGroupMarketBidRequest;
 import com.snomyc.api.bid.request.GetGroupMarketBidRequest;
 import com.snomyc.api.bid.request.MarketAddRequest;
 import com.snomyc.api.user.request.UserAddRequest;
@@ -38,10 +39,10 @@ public class MarketBidController {
 	
 	@ApiOperation(value = "小组编辑公司产品投标信息",httpMethod = "POST")
 	@RequestMapping(value = "/editGroupMarketBid", method = RequestMethod.POST)
-	public ResponseEntity editGroupMarketBid(@RequestBody UserAddRequest request) {
+	public ResponseEntity editGroupMarketBid(@RequestBody EditGroupMarketBidRequest request) {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
-			//各小组编辑完投标信息表示已投标isBid = 1
+			marketBidService.editGroupMarketBid(request);
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
 		}
