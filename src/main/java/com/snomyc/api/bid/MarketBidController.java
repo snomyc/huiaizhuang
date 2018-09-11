@@ -22,19 +22,6 @@ public class MarketBidController {
 	@Autowired
 	private MarketBidService marketBidService;
 	
-	@ApiOperation(value = "讲师创建公司产品投标信息",httpMethod = "POST")
-	@RequestMapping(value = "/createMarketBid", method = RequestMethod.POST)
-	public ResponseEntity createMarketBid(@RequestBody MarketAddRequest request) {
-		ResponseEntity responseEntity = null;
-		try {
-			responseEntity = marketBidService.createMarketBid(request);
-		} catch (Exception e) {
-			responseEntity = new ResponseEntity();
-			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
-		}
-		return responseEntity;
-	}
-	
 	@ApiOperation(value = "各小组获取公司产品投标信息",httpMethod = "POST")
 	@RequestMapping(value = "/getGroupMarketBid", method = RequestMethod.POST)
 	public ResponseEntity getGroupMarketBid(@RequestBody GetGroupMarketBidRequest request) {

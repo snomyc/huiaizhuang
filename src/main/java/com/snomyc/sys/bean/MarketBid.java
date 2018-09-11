@@ -17,7 +17,7 @@ public class MarketBid extends BaseEntity{
 	
 	private int  groupNum; //小组编号
 	
-	@Column(nullable = false,length=50)
+	@Column(length=50)
     private String company; //小组公司名称
 	
 	@Column(nullable = false, length=50)

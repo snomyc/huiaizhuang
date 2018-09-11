@@ -1,6 +1,7 @@
 package com.snomyc.sys.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.snomyc.api.user.request.UserRequest;
 import com.snomyc.base.domain.ResponseEntity;
@@ -17,4 +18,6 @@ public interface UserService extends BaseService<User, String>{
     public ResponseEntity groupLogin(UserRequest request);
     
     public List<User> findByCompanyIsNull();
+    
+    public Map<String,Object> activeStatus();
 }
