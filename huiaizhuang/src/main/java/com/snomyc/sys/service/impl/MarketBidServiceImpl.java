@@ -1,6 +1,7 @@
 package com.snomyc.sys.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -9,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
+import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
 import com.snomyc.api.bid.request.MarketAddRequest;
 import com.snomyc.base.domain.ResponseEntity;
 import com.snomyc.base.service.BaseServiceImpl;
+import com.snomyc.sys.bean.Market;
 import com.snomyc.sys.bean.MarketBid;
 import com.snomyc.sys.bean.User;
 import com.snomyc.sys.dao.MarketBidDao;
+import com.snomyc.sys.dao.MarketDao;
 import com.snomyc.sys.service.MarketBidService;
 import com.snomyc.sys.service.UserService;
 @Service
@@ -22,6 +26,9 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+    private MarketDao marketDao;
 	
     @Autowired
     private MarketBidDao marketBidDao;
@@ -83,6 +90,28 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 		}
 		marketBidDao.save(marketBidList);
 		return responseEntity;
+	}
+
+	
+	@Override
+	public GetGroupMarketBidDto getGroupMarketBid(int groupNum) {
+		//获取某小组某年活动的投标信息
+		Market market = marketDao.findTopByOrderByCreateTimeDesc();
+		if(market == null) {
+			return null;
+		}
+		GetGroupMarketBidDto dto = new GetGroupMarketBidDto();
+		List<String> productList = Arrays.asList(market.getProductName().split(","));
+		List<String> marketList = Arrays.asList(market.getMarketName().split(","));
+		dto.setProductList(productList);
+		dto.setMarketList(marketList);
+		
+		List<MarketBid> marketBidList = marketBidDao.findByGroupNumAndYear(groupNum);
+		dto.setMarketBidList(marketBidList);
+		dto.setGroupNum(groupNum);
+		dto.setYear(marketBidList.get(0).getYear());
+		dto.setCompany(marketBidList.get(0).getCompany());
+		return dto;
 	}
 	
 }
