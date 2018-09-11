@@ -11,6 +11,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
+import com.snomyc.api.bid.request.EditGroupMarketBidRequest;
 import com.snomyc.api.bid.request.MarketAddRequest;
 import com.snomyc.base.domain.ResponseEntity;
 import com.snomyc.base.service.BaseServiceImpl;
@@ -112,6 +113,12 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 		dto.setYear(marketBidList.get(0).getYear());
 		dto.setCompany(marketBidList.get(0).getCompany());
 		return dto;
+	}
+
+	@Override
+	public void editGroupMarketBid(EditGroupMarketBidRequest request) {
+		//更新小组的投标信息
+		//小组编辑完投标信息表示已投标isBid = 1
 	}
 	
 }
