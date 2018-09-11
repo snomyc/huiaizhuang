@@ -73,6 +73,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 		List<String> marketList = Arrays.asList(market.getMarketName().split(","));
 		
 		List<MarketBid>  marketBidList = new ArrayList<MarketBid>();
+		int flagNum = 1;
 		//模拟活动年限
 		for (int i = 0; i < market.getCount(); i++) {
 			for (User user : userList) {
@@ -89,10 +90,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 						marketBid.setIsLabel(0);
 						marketBid.setIsBid(0);
 						marketBid.setIsFinish(0);
+						marketBid.setNum(flagNum++);
 						marketBidList.add(marketBid);
 					}
 				}
 			}
+			//每一年都重新计数
+			flagNum = 1;
 		}
 		marketBidDao.save(marketBidList);
 	}
@@ -109,10 +113,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 		ResponseEntity responseEntity = new ResponseEntity();
 		if(StringUtils.isBlank(request.getCompany()) || StringUtils.isBlank(request.getPassword())) {
 			responseEntity.failure("请填写公司名称或进入密码!");
+			return responseEntity;
 		}
 		User user = userDao.findByGroupNumAndPassword(request.getGroupNum(),request.getPassword());
 		if(user == null) {
 			responseEntity.failure("随机密码输入错误!");
+			return responseEntity;
 		}
 		user.setCompany(request.getCompany());
 		userDao.save(user);
@@ -134,15 +140,19 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 		Map<String, Object> map = new HashMap<String,Object>();
 		int count = marketDao.countByOrderByCreateTimeAsc();
 		if(count > 0) {
+			//产品投标信息活动创建
 			map.put("active", 1);
 		}else {
+			//产品投标信息活动未创建
 			map.put("active", 0);
 		}
 		
 		count = userDao.countByOrderByGroupNumAsc();
 		if(count > 0) {
+			//小组已创建
 			map.put("group", 1);
 		}else {
+			//小组未创建
 			map.put("group", 0);
 		}
 		return map;

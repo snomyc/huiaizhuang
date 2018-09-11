@@ -31,6 +31,8 @@ public class MarketBid extends BaseEntity{
 	
 	private int  isBid; //是否投标，0:否 1:是 
 	private int  isFinish; //是否完结，0:否 1:是 
+	
+	private int num;//数据插入序号
 	public String getYear() {
 		return year;
 	}
@@ -84,6 +86,12 @@ public class MarketBid extends BaseEntity{
 	}
 	public void setIsBid(int isBid) {
 		this.isBid = isBid;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
    
 }
