@@ -1,5 +1,7 @@
 package com.snomyc.api.bid;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +45,21 @@ public class MarketBidController {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			marketBidService.editGroupMarketBid(request);
+			responseEntity.success();
+		} catch (Exception e) {
+			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
+		}
+		return responseEntity;
+	}
+	
+	@ApiOperation(value = "查看所有小组公司产品投标信息",httpMethod = "POST")
+	@RequestMapping(value = "/getAllGroupMarketBid", method = RequestMethod.POST)
+	public ResponseEntity getAllGroupMarketBid() {
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			
+			List<GetGroupMarketBidDto> dtoList = marketBidService.getAllGroupMarketBid();
+			responseEntity.success(dtoList,"成功");
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
 		}
@@ -55,6 +72,7 @@ public class MarketBidController {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			//只有所有公司都投标了才能看最终分析结果
+			//marketBidService.marketBidAnalysis();
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
 		}

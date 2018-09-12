@@ -1,5 +1,7 @@
 package com.snomyc.sys.service;
 
+import java.util.List;
+
 import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
 import com.snomyc.api.bid.request.EditGroupMarketBidRequest;
 import com.snomyc.api.bid.request.MarketAddRequest;
@@ -13,5 +15,7 @@ public interface MarketBidService extends BaseService<MarketBid, String>{
 	public GetGroupMarketBidDto getGroupMarketBid(int groupNum);
 	
 	public void editGroupMarketBid(EditGroupMarketBidRequest request) throws Exception;
+	
+	public List<GetGroupMarketBidDto> getAllGroupMarketBid();
 
 }
