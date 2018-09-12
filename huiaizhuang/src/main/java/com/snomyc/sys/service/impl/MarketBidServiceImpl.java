@@ -131,6 +131,20 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 		}
 		marketBidDao.save(marketBidList);
 	}
+
+	@Override
+	public List<GetGroupMarketBidDto> getAllGroupMarketBid() {
+		//获取小组信息
+		List<User> userList = userService.findByOrderByGroupNumAsc();
+		if(!CollectionUtils.isEmpty(userList)) {
+			List<GetGroupMarketBidDto> dtoList = new ArrayList<GetGroupMarketBidDto>();
+			for (User user : userList) {
+				dtoList.add(this.getGroupMarketBid(user.getGroupNum()));
+			}
+			return dtoList;
+		}
+		return null;
+	}
 	
 }
 
