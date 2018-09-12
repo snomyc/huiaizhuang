@@ -15,8 +15,8 @@ public class EditGroupMarketBidRequest extends BaseRequest {
 	@ApiModelProperty(name = "year", value = "年份", required = true)
 	private String year; //年份
 	
-	@ApiModelProperty(name = "bidInfo", value = "投标信息map(key:num,value:投标数量)", required = true)
-	private List<Map<String,Object>> bidInfo;
+	@ApiModelProperty(name = "bidInfo", value = "投标数量", required = true)
+	private List<String> bidInfo;
 
 	public int getGroupNum() {
 		return groupNum;
@@ -34,11 +34,11 @@ public class EditGroupMarketBidRequest extends BaseRequest {
 		this.year = year;
 	}
 
-	public List<Map<String, Object>> getBidInfo() {
+	public List<String> getBidInfo() {
 		return bidInfo;
 	}
 
-	public void setBidInfo(List<Map<String, Object>> bidInfo) {
+	public void setBidInfo(List<String> bidInfo) {
 		this.bidInfo = bidInfo;
 	}
 	
