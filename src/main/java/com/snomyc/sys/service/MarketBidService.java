@@ -12,6 +12,6 @@ public interface MarketBidService extends BaseService<MarketBid, String>{
 	
 	public GetGroupMarketBidDto getGroupMarketBid(int groupNum);
 	
-	public void editGroupMarketBid(EditGroupMarketBidRequest request);
+	public void editGroupMarketBid(EditGroupMarketBidRequest request) throws Exception;
 
 }

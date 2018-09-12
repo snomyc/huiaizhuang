@@ -19,7 +19,6 @@ public interface MarketBidDao extends JpaRepository<MarketBid, String> {
 	@Modifying
 	public void updateByGroupNum(int groupNum,String company);
 	
-	
 	@Query(value="select * from market_bid s where s.group_num = ?1 and s.`year` = "
 			+ " (select mb.`year` from market_bid mb where mb.is_finish = 0 GROUP BY mb.`year` ORDER BY mb.`year` asc limit 1) "
 			+ " ORDER BY s.num asc", nativeQuery = true)

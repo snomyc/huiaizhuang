@@ -3,6 +3,7 @@ package com.snomyc.sys.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -116,9 +117,19 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 	}
 
 	@Override
-	public void editGroupMarketBid(EditGroupMarketBidRequest request) {
+	public void editGroupMarketBid(EditGroupMarketBidRequest request) throws Exception {
 		//更新小组的投标信息
-		//小组编辑完投标信息表示已投标isBid = 1
+		List<MarketBid> marketBidList = marketBidDao.findByGroupNumAndYear(request.getGroupNum());
+		if(marketBidList.size() != request.getBidInfo().size()) {
+			throw new Exception("编辑投标信息有误!");
+		}
+		for (int i = 0; i < marketBidList.size(); i++) {
+			MarketBid marketBid = marketBidList.get(i);
+			marketBid.setBidNum(Integer.valueOf(request.getBidInfo().get(i)));
+			//小组编辑完投标信息表示已投标isBid = 1
+			marketBid.setIsBid(1);
+		}
+		marketBidDao.save(marketBidList);
 	}
 	
 }
