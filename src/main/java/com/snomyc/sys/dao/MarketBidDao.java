@@ -33,4 +33,6 @@ public interface MarketBidDao extends JpaRepository<MarketBid, String> {
 	public int validateCompanyBid();
 	
 	public List<MarketBid> findByProductNameAndMarketNameAndYearOrderByGroupNumAsc(String productName,String marketName,String year);
+	
+	public MarketBid findByProductNameAndMarketNameAndYearAndCompany(String productName,String marketName,String year,String company);
 }
