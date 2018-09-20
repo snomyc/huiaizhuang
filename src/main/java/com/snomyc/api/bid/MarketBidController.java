@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
 import com.snomyc.api.bid.request.EditGroupMarketBidRequest;
 import com.snomyc.api.bid.request.GetGroupMarketBidRequest;
-import com.snomyc.api.bid.request.MarketAddRequest;
+import com.snomyc.api.bid.request.MarketAnalysisRequest;
 import com.snomyc.api.user.request.UserAddRequest;
 import com.snomyc.base.domain.ResponseConstant;
 import com.snomyc.base.domain.ResponseEntity;
@@ -68,11 +68,11 @@ public class MarketBidController {
 	
 	@ApiOperation(value = "公司产品投标分析汇总",httpMethod = "POST")
 	@RequestMapping(value = "/marketBidAnalysis", method = RequestMethod.POST)
-	public ResponseEntity marketBidAnalysis(@RequestBody UserAddRequest request) {
+	public ResponseEntity marketBidAnalysis() {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			//只有所有公司都投标了才能看最终分析结果
-			//marketBidService.marketBidAnalysis();
+			responseEntity = marketBidService.marketBidAnalysis();
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
 		}
@@ -81,10 +81,11 @@ public class MarketBidController {
 	
 	@ApiOperation(value = "讲师标注某公司为市场/产品第一",httpMethod = "POST")
 	@RequestMapping(value = "/labelCompanyMarket", method = RequestMethod.POST)
-	public ResponseEntity labelCompanyMarket(@RequestBody UserAddRequest request) {
+	public ResponseEntity labelCompanyMarket(@RequestBody MarketAnalysisRequest request) {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
 			//讲师标注完，表示该年投标已完结isFinish = 1
+			marketBidService.labelCompanyMarket(request);
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
 		}

@@ -3,17 +3,20 @@ package com.snomyc.sys.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
+import com.snomyc.api.bid.dto.CompanyBidAnalysisDto;
+import com.snomyc.api.bid.dto.CompanyBidDto;
+import com.snomyc.api.bid.dto.CompanySaleDto;
 import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
+import com.snomyc.api.bid.dto.MarketBidAnalysisDto;
 import com.snomyc.api.bid.request.EditGroupMarketBidRequest;
 import com.snomyc.api.bid.request.MarketAddRequest;
+import com.snomyc.api.bid.request.MarketAnalysisRequest;
 import com.snomyc.base.domain.ResponseEntity;
 import com.snomyc.base.service.BaseServiceImpl;
 import com.snomyc.sys.bean.Market;
@@ -144,6 +147,56 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 			return dtoList;
 		}
 		return null;
+	}
+
+	@Override
+	public ResponseEntity marketBidAnalysis() {
+		//判断是否全部公司都投标
+		ResponseEntity responseEntity = new ResponseEntity();
+		int count = marketBidDao.validateCompanyBid();
+		if(count > 0) {
+			responseEntity.failure("请等待其他小组完成投标!");
+			return responseEntity;
+		}
+		//所有小组均完成投标
+		MarketBidAnalysisDto dto = new MarketBidAnalysisDto();
+		Market market = marketDao.findTopByOrderByCreateTimeDesc();
+		List<String> productList = Arrays.asList(market.getProductName().split(","));
+		List<String> marketList = Arrays.asList(market.getMarketName().split(","));
+		dto.setMarketList(marketList);
+		dto.setProductList(productList);
+		String year = marketBidDao.getCurrentYear();
+		dto.setYear(year);
+		//汇总数据
+		List<CompanyBidAnalysisDto> companyBidList = new ArrayList<CompanyBidAnalysisDto>();
+		for (String productName : productList) {
+			for (String marketName : marketList) {
+				CompanyBidAnalysisDto analysisDto = new CompanyBidAnalysisDto();
+				analysisDto.setProductName(productName);
+				analysisDto.setMarketName(marketName);
+				List<MarketBid> list = marketBidDao.findByProductNameAndMarketNameAndYearOrderByGroupNumAsc(productName,marketName,year);
+				List<CompanyBidDto> bidList = new ArrayList<CompanyBidDto>();
+				for (MarketBid marketBid : list) {
+					CompanyBidDto companyBidDto = new CompanyBidDto();
+					companyBidDto.setCompany(marketBid.getCompany());
+					companyBidDto.setBidNum(marketBid.getBidNum());
+					bidList.add(companyBidDto);
+				}
+				analysisDto.setBidList(bidList);
+				companyBidList.add(analysisDto);
+			}
+		}
+		dto.setCompanyBidList(companyBidList);
+		//公司销售费用汇总
+		List<CompanySaleDto> companySaleList = new ArrayList<CompanySaleDto>();
+		sd
+		responseEntity.success(dto, "成功");
+		return responseEntity;
+	}
+
+	@Override
+	public void labelCompanyMarket(MarketAnalysisRequest request) {
+		
 	}
 	
 }
