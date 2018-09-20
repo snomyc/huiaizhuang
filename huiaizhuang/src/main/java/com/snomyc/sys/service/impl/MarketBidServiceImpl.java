@@ -3,6 +3,8 @@ package com.snomyc.sys.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.snomyc.sys.bean.Market;
 import com.snomyc.sys.bean.MarketBid;
 import com.snomyc.sys.bean.User;
 import com.snomyc.sys.dao.MarketBidDao;
+import com.snomyc.sys.dao.MarketBidQueryDao;
 import com.snomyc.sys.dao.MarketDao;
 import com.snomyc.sys.service.MarketBidService;
 import com.snomyc.sys.service.UserService;
@@ -37,6 +40,9 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 	
     @Autowired
     private MarketBidDao marketBidDao;
+    
+    @Autowired
+    private MarketBidQueryDao marketBidQueryDao;
     
     @Override
 	public PagingAndSortingRepository<MarketBid, String> getDao() {
@@ -153,11 +159,11 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 	public ResponseEntity marketBidAnalysis() {
 		//判断是否全部公司都投标
 		ResponseEntity responseEntity = new ResponseEntity();
-		int count = marketBidDao.validateCompanyBid();
-		if(count > 0) {
-			responseEntity.failure("请等待其他小组完成投标!");
-			return responseEntity;
-		}
+//		int count = marketBidDao.validateCompanyBid();
+//		if(count > 0) {
+//			responseEntity.failure("请等待其他小组完成投标!");
+//			return responseEntity;
+//		}
 		//所有小组均完成投标
 		MarketBidAnalysisDto dto = new MarketBidAnalysisDto();
 		Market market = marketDao.findTopByOrderByCreateTimeDesc();
@@ -179,7 +185,9 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 				for (MarketBid marketBid : list) {
 					CompanyBidDto companyBidDto = new CompanyBidDto();
 					companyBidDto.setCompany(marketBid.getCompany());
-					companyBidDto.setBidNum(marketBid.getBidNum());
+					//查询该公司上一年是否有被标记过，如果有则投标数+1
+					MarketBid marketBids = marketBidDao.findByProductNameAndMarketNameAndYearAndCompany(productName, marketName, String.valueOf((Integer.valueOf(year)-1)), marketBid.getCompany());
+					companyBidDto.setBidNum(marketBid.getBidNum()+marketBids.getIsLabel());
 					bidList.add(companyBidDto);
 				}
 				analysisDto.setBidList(bidList);
@@ -189,7 +197,14 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 		dto.setCompanyBidList(companyBidList);
 		//公司销售费用汇总
 		List<CompanySaleDto> companySaleList = new ArrayList<CompanySaleDto>();
-		sd
+		List<Map<String,Object>> mapList = marketBidQueryDao.findCompanySales(year);
+		for (Map<String, Object> map : mapList) {
+			CompanySaleDto companySaleDto = new CompanySaleDto();
+			companySaleDto.setCompany((String)map.get("company"));
+			companySaleDto.setSale(Integer.valueOf(map.get("sale").toString()));
+			companySaleList.add(companySaleDto);
+		}
+		dto.setCompanySaleList(companySaleList);
 		responseEntity.success(dto, "成功");
 		return responseEntity;
 	}
