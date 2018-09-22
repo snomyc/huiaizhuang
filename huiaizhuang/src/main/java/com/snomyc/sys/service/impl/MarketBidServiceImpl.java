@@ -159,11 +159,11 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 	public ResponseEntity marketBidAnalysis() {
 		//判断是否全部公司都投标
 		ResponseEntity responseEntity = new ResponseEntity();
-//		int count = marketBidDao.validateCompanyBid();
-//		if(count > 0) {
-//			responseEntity.failure("请等待其他小组完成投标!");
-//			return responseEntity;
-//		}
+		int count = marketBidDao.validateCompanyBid();
+		if(count > 0) {
+			responseEntity.failure("请等待其他小组完成投标!");
+			return responseEntity;
+		}
 		//所有小组均完成投标
 		MarketBidAnalysisDto dto = new MarketBidAnalysisDto();
 		Market market = marketDao.findTopByOrderByCreateTimeDesc();
