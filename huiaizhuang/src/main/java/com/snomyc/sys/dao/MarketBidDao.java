@@ -35,4 +35,13 @@ public interface MarketBidDao extends JpaRepository<MarketBid, String> {
 	public List<MarketBid> findByProductNameAndMarketNameAndYearOrderByGroupNumAsc(String productName,String marketName,String year);
 	
 	public MarketBid findFirstByProductNameAndMarketNameAndYearAndCompany(String productName,String marketName,String year,String company);
+	
+	@Query(value="update market_bid set is_label = 1 where product_name = ?1 and market_name = ?2 "
+			+ "and year = ?3 and company = ?4", nativeQuery = true)
+	@Modifying
+	public void updateCompanyAnalysisBid(String productName,String marketName,String year,String company);
+	
+	@Query(value="update market_bid set is_finish = 1 where year = ?1", nativeQuery = true)
+	@Modifying
+	public void updateByIsFinish(String year);
 }
