@@ -16,6 +16,7 @@ import com.snomyc.api.bid.dto.CompanyBidDto;
 import com.snomyc.api.bid.dto.CompanySaleDto;
 import com.snomyc.api.bid.dto.GetGroupMarketBidDto;
 import com.snomyc.api.bid.dto.MarketBidAnalysisDto;
+import com.snomyc.api.bid.request.AnalysisBid;
 import com.snomyc.api.bid.request.EditGroupMarketBidRequest;
 import com.snomyc.api.bid.request.MarketAddRequest;
 import com.snomyc.api.bid.request.MarketAnalysisRequest;
@@ -215,9 +216,13 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 
 	@Override
 	public void labelCompanyMarket(MarketAnalysisRequest request) {
-		
+		//更新标注的投标公司为已标记，下一年会自动+1
+		for (AnalysisBid analysisBid : request.getLabelList()) {
+			marketBidDao.updateCompanyAnalysisBid(analysisBid.getProductName(), analysisBid.getMarketName(), request.getYear(), analysisBid.getCompany());
+		}
+		//讲师标注完，表示该年投标已完结isFinish = 1
+		marketBidDao.updateByIsFinish(request.getYear());
 	}
-	
 }
 
 

@@ -84,8 +84,8 @@ public class MarketBidController {
 	public ResponseEntity labelCompanyMarket(@RequestBody MarketAnalysisRequest request) {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
-			//讲师标注完，表示该年投标已完结isFinish = 1
 			marketBidService.labelCompanyMarket(request);
+			responseEntity.success();
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
 		}
