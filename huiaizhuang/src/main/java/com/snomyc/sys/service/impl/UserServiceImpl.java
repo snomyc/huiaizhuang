@@ -120,6 +120,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 			responseEntity.failure("随机密码输入错误!");
 			return responseEntity;
 		}
+		//判断公司名称是否重复
+		int count = userDao.countByCompany(request.getCompany());
+		if(count == 1) {
+			responseEntity.failure("公司名称已存在,请输入其他公司名称!");
+			return responseEntity;
+		}
 		user.setCompany(request.getCompany());
 		userDao.save(user);
 		
