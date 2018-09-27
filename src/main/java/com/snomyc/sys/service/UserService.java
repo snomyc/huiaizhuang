@@ -20,4 +20,6 @@ public interface UserService extends BaseService<User, String>{
     public List<User> findByCompanyIsNull();
     
     public Map<String,Object> activeStatus();
+    
+    public Map<String,Object> groupActiveStatus();
 }

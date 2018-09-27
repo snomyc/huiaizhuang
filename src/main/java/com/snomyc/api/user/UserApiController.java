@@ -34,7 +34,6 @@ public class UserApiController {
 	@Autowired
 	private MarketService marketService;
 	
-	
 	@ApiOperation(value = "讲师活动首页",httpMethod = "POST")
 	@RequestMapping(value = "/activeIndex", method = RequestMethod.POST)
 	public ResponseEntity activeIndex() {
@@ -136,4 +135,16 @@ public class UserApiController {
 		return responseEntity;
 	}
 	
+	@ApiOperation(value = "小组活动首页",httpMethod = "POST")
+	@RequestMapping(value = "/groupActiveIndex", method = RequestMethod.POST)
+	public ResponseEntity groupActiveIndex() {
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			Map<String,Object> result = userService.groupActiveStatus();
+			responseEntity.success(result,"成功");
+		} catch (Exception e) {
+			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
+		}
+		return responseEntity;
+	}
 }

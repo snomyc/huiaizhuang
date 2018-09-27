@@ -163,6 +163,27 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 		}
 		return map;
 	}
+
+	@Override
+	public Map<String, Object> groupActiveStatus() {
+		//判断如果有小组没填公司名称就表示活动还没有开始
+		Map<String, Object> map = new HashMap<String,Object>();
+		int count = userDao.countByCompanyIsNull();
+		if(count > 0) {
+			//活动未开始
+			map.put("active", 0);
+		}else {
+			count = userDao.countByCompanyIsNotNull();
+			if(count > 0) {
+				//活动已开始
+				map.put("active", 1);
+			}else {
+				//活动未开始
+				map.put("active", 0);
+			}
+		}
+		return map;
+	}
 }
 
 
