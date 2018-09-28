@@ -167,24 +167,28 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 	}
 
 	@Override
-	public Map<String, Object> groupActiveStatus() {
+	public Map<String, Object> groupActiveStatus(int groupNum) {
 		//判断如果有小组没填公司名称就表示活动还没有开始
 		Map<String, Object> map = new HashMap<String,Object>();
-		int count = userDao.countByCompanyIsNull();
-		if(count > 0) {
-			//活动未开始
-			map.put("active", 0);
+		User user = userDao.findByGroupNum(groupNum);
+		if(user != null && StringUtils.isNotBlank(user.getCompany())) {
+			map.put("active", 1);
 		}else {
-			count = userDao.countByCompanyIsNotNull();
-			if(count > 0) {
-				//活动已开始
-				map.put("active", 1);
-			}else {
-				//活动未开始
-				map.put("active", 0);
-			}
+			map.put("active", 0);
 		}
 		return map;
+	}
+
+	@Override
+	public void updateGroup(int groupNum, String company) {
+		User user = userDao.findByGroupNum(groupNum);
+		if(user == null) {
+			return;
+		}
+		user.setCompany(company);
+		userDao.save(user);
+		//批量更新投标市场表小组公司信息
+		marketBidDao.updateByGroupNum(user.getGroupNum(), company);
 	}
 }
 

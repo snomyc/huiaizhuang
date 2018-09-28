@@ -187,7 +187,7 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 					CompanyBidDto companyBidDto = new CompanyBidDto();
 					companyBidDto.setCompany(marketBid.getCompany());
 					//查询该公司上一年是否有被标记过，如果有则投标数+1
-					MarketBid marketBids = marketBidDao.findFirstByProductNameAndMarketNameAndYearAndCompany(productName, marketName, String.valueOf((Integer.valueOf(year)-1)), marketBid.getCompany());
+					MarketBid marketBids = marketBidDao.findFirstByProductNameAndMarketNameAndYearAndGroupNum(productName, marketName, String.valueOf((Integer.valueOf(year)-1)), marketBid.getGroupNum());
 					if(marketBids != null) {
 						companyBidDto.setBidNum(marketBid.getBidNum()+marketBids.getIsLabel());
 					}else {

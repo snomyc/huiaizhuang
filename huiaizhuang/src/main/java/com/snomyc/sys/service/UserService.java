@@ -21,5 +21,7 @@ public interface UserService extends BaseService<User, String>{
     
     public Map<String,Object> activeStatus();
     
-    public Map<String,Object> groupActiveStatus();
+    public Map<String,Object> groupActiveStatus(int groupNum);
+    
+    public void updateGroup(int groupNum,String company);
 }

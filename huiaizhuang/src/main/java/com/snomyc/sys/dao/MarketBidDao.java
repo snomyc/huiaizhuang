@@ -34,7 +34,7 @@ public interface MarketBidDao extends JpaRepository<MarketBid, String> {
 	
 	public List<MarketBid> findByProductNameAndMarketNameAndYearOrderByGroupNumAsc(String productName,String marketName,String year);
 	
-	public MarketBid findFirstByProductNameAndMarketNameAndYearAndCompany(String productName,String marketName,String year,String company);
+	public MarketBid findFirstByProductNameAndMarketNameAndYearAndGroupNum(String productName,String marketName,String year,int groupNum);
 	
 	@Query(value="update market_bid set is_label = 1 where product_name = ?1 and market_name = ?2 "
 			+ "and year = ?3 and company = ?4", nativeQuery = true)

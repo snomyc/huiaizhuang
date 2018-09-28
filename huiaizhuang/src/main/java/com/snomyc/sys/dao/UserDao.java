@@ -16,6 +16,8 @@ public interface UserDao extends JpaRepository<User, String> {
     
     public User findByGroupNumAndPassword(int groupNum,String password);
     
+    public User findByGroupNum(int groupNum);
+    
     public List<User> findByCompanyIsNull();
     
     public int countByCompany(String company);

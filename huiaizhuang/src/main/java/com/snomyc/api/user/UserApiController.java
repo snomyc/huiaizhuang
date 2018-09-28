@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.snomyc.api.bid.request.MarketAddRequest;
+import com.snomyc.api.user.request.GroupActiveIndexRequest;
 import com.snomyc.api.user.request.UserAddRequest;
 import com.snomyc.api.user.request.UserRequest;
+import com.snomyc.api.user.request.UserUpdateRequest;
 import com.snomyc.base.domain.ResponseConstant;
 import com.snomyc.base.domain.ResponseEntity;
 import com.snomyc.sys.bean.Market;
@@ -95,6 +97,21 @@ public class UserApiController {
 		}
 		return responseEntity;
 	}
+	
+	
+	@ApiOperation(value = "讲师修改小组公司名称",httpMethod = "POST")
+	@RequestMapping(value = "/updateGroup", method = RequestMethod.POST)
+	public ResponseEntity updateGroup(@RequestBody UserUpdateRequest request) {
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			userService.updateGroup(request.getGroupNum(),request.getCompany());
+			responseEntity.success();
+		} catch (Exception e) {
+			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
+		}
+		return responseEntity;
+	}
+	
 
 	@ApiOperation(value = "获取创建沙盘模拟演练小组信息",httpMethod = "POST")  
 	@RequestMapping(value = "/getGroupInfo", method = RequestMethod.POST)
@@ -137,10 +154,10 @@ public class UserApiController {
 	
 	@ApiOperation(value = "小组活动首页",httpMethod = "POST")
 	@RequestMapping(value = "/groupActiveIndex", method = RequestMethod.POST)
-	public ResponseEntity groupActiveIndex() {
+	public ResponseEntity groupActiveIndex(@RequestBody GroupActiveIndexRequest request) {
 		ResponseEntity responseEntity = new ResponseEntity();
 		try {
-			Map<String,Object> result = userService.groupActiveStatus();
+			Map<String,Object> result = userService.groupActiveStatus(request.getGroupNum());
 			responseEntity.success(result,"成功");
 		} catch (Exception e) {
 			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
