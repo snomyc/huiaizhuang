@@ -144,17 +144,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 	@Override
 	public Map<String, Object> activeStatus() {
 		Map<String, Object> map = new HashMap<String,Object>();
-		Market market = marketDao.findTopByOrderByCreateTimeDesc();
-		if(market != null) {
+		String year = marketBidDao.getCurrentYear();
+		if(year != null) {
 			//产品投标信息活动创建
 			map.put("active", 1);
-			map.put("year", market.getYear());
+			map.put("year", year);
 		}else {
 			//产品投标信息活动未创建
 			map.put("active", 0);
 			map.put("year", "");
 		}
-		
 		int count = userDao.countByOrderByGroupNumAsc();
 		if(count > 0) {
 			//小组已创建
