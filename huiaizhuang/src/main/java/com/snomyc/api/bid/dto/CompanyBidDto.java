@@ -10,6 +10,7 @@ public class CompanyBidDto implements Serializable{
 	private static final long serialVersionUID = 1L;
     private String company; //小组公司名称
 	private int  bidNum; //投标数量
+	private int  isLabel; //是否标记，0:否 1:是 
 	public String getCompany() {
 		return company;
 	}
@@ -21,5 +22,11 @@ public class CompanyBidDto implements Serializable{
 	}
 	public void setBidNum(int bidNum) {
 		this.bidNum = bidNum;
+	}
+	public int getIsLabel() {
+		return isLabel;
+	}
+	public void setIsLabel(int isLabel) {
+		this.isLabel = isLabel;
 	}
 }

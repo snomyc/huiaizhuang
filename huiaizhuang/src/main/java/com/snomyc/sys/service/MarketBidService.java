@@ -22,5 +22,7 @@ public interface MarketBidService extends BaseService<MarketBid, String>{
 	public ResponseEntity marketBidAnalysis();
 	
 	public void labelCompanyMarket(MarketAnalysisRequest request);
+	
+	public ResponseEntity allMarketBidAnalysis();
 
 }
