@@ -44,4 +44,7 @@ public interface MarketBidDao extends JpaRepository<MarketBid, String> {
 	@Query(value="update market_bid set is_finish = 1 where year = ?1", nativeQuery = true)
 	@Modifying
 	public void updateByIsFinish(String year);
+	
+	@Query(value="select `year` from market_bid  where is_finish = 1 GROUP BY `year` ORDER BY `year` asc", nativeQuery = true)
+	public List<String> findIsFinishActiveYear();
 }

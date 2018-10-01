@@ -91,4 +91,17 @@ public class MarketBidController {
 		}
 		return responseEntity;
 	}
+	
+	
+	@ApiOperation(value = "所有已标记年份活动汇总",httpMethod = "POST")
+	@RequestMapping(value = "/allMarketBidAnalysis", method = RequestMethod.POST)
+	public ResponseEntity allMarketBidAnalysis() {
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			responseEntity = marketBidService.allMarketBidAnalysis();
+		} catch (Exception e) {
+			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
+		}
+		return responseEntity;
+	}
 }

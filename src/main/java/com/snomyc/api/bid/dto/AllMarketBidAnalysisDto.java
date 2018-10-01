@@ -6,7 +6,7 @@ import java.util.List;
  * @author Administrator
  * 小组公司产品投标信息返参
  */
-public class MarketBidAnalysisDto implements Serializable{
+public class AllMarketBidAnalysisDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String year; //年份
@@ -14,7 +14,6 @@ public class MarketBidAnalysisDto implements Serializable{
 	private List<String> marketList;//市场列表
 	
 	private List<CompanyBidAnalysisDto> companyBidList; //当前活动所有公司投标信息汇总
-	private List<CompanySaleDto> companySaleList;//公司销售费用汇总
 	
 	public String getYear() {
 		return year;
@@ -39,11 +38,5 @@ public class MarketBidAnalysisDto implements Serializable{
 	}
 	public void setCompanyBidList(List<CompanyBidAnalysisDto> companyBidList) {
 		this.companyBidList = companyBidList;
-	}
-	public List<CompanySaleDto> getCompanySaleList() {
-		return companySaleList;
-	}
-	public void setCompanySaleList(List<CompanySaleDto> companySaleList) {
-		this.companySaleList = companySaleList;
 	}
 }

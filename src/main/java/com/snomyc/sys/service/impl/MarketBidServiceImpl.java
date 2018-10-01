@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
+import com.snomyc.api.bid.dto.AllMarketBidAnalysisDto;
 import com.snomyc.api.bid.dto.CompanyBidAnalysisDto;
 import com.snomyc.api.bid.dto.CompanyBidDto;
 import com.snomyc.api.bid.dto.CompanySaleDto;
@@ -222,6 +223,59 @@ public class MarketBidServiceImpl extends BaseServiceImpl<MarketBid, String> imp
 		}
 		//讲师标注完，表示该年投标已完结isFinish = 1
 		marketBidDao.updateByIsFinish(request.getYear());
+	}
+
+	@Override
+	public ResponseEntity allMarketBidAnalysis() {
+		ResponseEntity responseEntity = new ResponseEntity();
+		
+		//判断是否有汇总年份
+		List<String> yearList = marketBidDao.findIsFinishActiveYear();
+		if(CollectionUtils.isEmpty(yearList)) {
+			responseEntity.failure("暂无汇总信息");
+			return responseEntity;
+		}
+		List<AllMarketBidAnalysisDto> dtoList = new ArrayList<AllMarketBidAnalysisDto>();
+		//通过年份依次获取每年的汇总信息
+		Market market = marketDao.findTopByOrderByCreateTimeDesc();
+		List<String> productList = Arrays.asList(market.getProductName().split(","));
+		List<String> marketList = Arrays.asList(market.getMarketName().split(","));
+		for (String year : yearList) {
+			AllMarketBidAnalysisDto dto = new AllMarketBidAnalysisDto();
+			dto.setYear(year);
+			dto.setProductList(productList);
+			dto.setMarketList(marketList);
+			//汇总数据
+			List<CompanyBidAnalysisDto> companyBidList = new ArrayList<CompanyBidAnalysisDto>();
+			for (String productName : productList) {
+				for (String marketName : marketList) {
+					CompanyBidAnalysisDto analysisDto = new CompanyBidAnalysisDto();
+					analysisDto.setProductName(productName);
+					analysisDto.setMarketName(marketName);
+					List<MarketBid> list = marketBidDao.findByProductNameAndMarketNameAndYearOrderByGroupNumAsc(productName,marketName,year);
+					List<CompanyBidDto> bidList = new ArrayList<CompanyBidDto>();
+					for (MarketBid marketBid : list) {
+						CompanyBidDto companyBidDto = new CompanyBidDto();
+						companyBidDto.setCompany(marketBid.getCompany());
+						//查询该公司上一年是否有被标记过，如果有则投标数+1
+						MarketBid marketBids = marketBidDao.findFirstByProductNameAndMarketNameAndYearAndGroupNum(productName, marketName, String.valueOf((Integer.valueOf(year)-1)), marketBid.getGroupNum());
+						if(marketBids != null && marketBids.getIsLabel() == 1) {
+							companyBidDto.setBidNum(marketBid.getBidNum()+marketBids.getIsLabel());
+							companyBidDto.setIsLabel(1);
+						}else {
+							companyBidDto.setBidNum(marketBid.getBidNum());
+						}
+						bidList.add(companyBidDto);
+					}
+					analysisDto.setBidList(bidList);
+					companyBidList.add(analysisDto);
+				}
+			}
+			dto.setCompanyBidList(companyBidList);
+			dtoList.add(dto);
+		}
+		responseEntity.success(dtoList, "成功");
+		return responseEntity;
 	}
 }
 
