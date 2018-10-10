@@ -17,10 +17,10 @@ public class Market extends BaseEntity{
 	@Column(nullable = false,length=10)
 	private String year;//年份
 	
-	@Column(nullable = false, length=50)
+	@Column(nullable = false, length=500)
     private String marketName; //市场名称 逗号隔开
 	
-	@Column(nullable = false, length=50)
+	@Column(nullable = false, length=500)
     private String productName; //产品名称 逗号隔开
 	
 	private int  count; //活动次数
