@@ -104,4 +104,18 @@ public class MarketBidController {
 		}
 		return responseEntity;
 	}
+	
+	
+	@ApiOperation(value = "讲师编辑公司产品投标信息",httpMethod = "POST")
+	@RequestMapping(value = "/editGroupMarketBidByLector", method = RequestMethod.POST)
+	public ResponseEntity editGroupMarketBidByLector(@RequestBody EditGroupMarketBidRequest request) {
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			marketBidService.editGroupMarketBid(request);
+			responseEntity.success();
+		} catch (Exception e) {
+			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
+		}
+		return responseEntity;
+	}
 }
