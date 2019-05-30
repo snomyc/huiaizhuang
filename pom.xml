@@ -5,7 +5,7 @@
     <name>huiaizhuang</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>huiaizhuang</description>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
