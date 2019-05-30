@@ -164,4 +164,16 @@ public class UserApiController {
 		}
 		return responseEntity;
 	}
+	
+	@ApiOperation(value = "测试jenkins更新",httpMethod = "POST")
+	@RequestMapping(value = "/testJenkins", method = RequestMethod.POST)
+	public ResponseEntity testJenkins() {
+		ResponseEntity responseEntity = new ResponseEntity();
+		try {
+			responseEntity.success();
+		} catch (Exception e) {
+			responseEntity.failure(ResponseConstant.CODE_500, "接口调用异常");
+		}
+		return responseEntity;
+	}
 }
