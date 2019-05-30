@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>huiaizhuang</artifactId>
     <name>huiaizhuang</name>
-    <version>0.0.1-SNAPSHOT</version>
     <description>huiaizhuang</description>
     <packaging>war</packaging>
     <parent>
